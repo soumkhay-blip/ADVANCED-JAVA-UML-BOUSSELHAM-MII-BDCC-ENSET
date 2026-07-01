@@ -13,3 +13,8 @@ Master MII-BDCC, ENSET — Université Hassan II Casablanca.
 | TP4-Java-Avanc-Serveur-TCP-Multi-Thread | Serveur TCP multi-thread avec pool de threads |
 
 Chaque dossier contient l'**énoncé** (PDF) et le **code source** (`src/`).
+
+## Dossiers source locaux
+
+- Énoncés : `C:\Users\k.soumia\Desktop\TP-JAVA-AVANCE`
+- Code TP1 (Héritage) : `C:\Users\k.soumia\Desktop\Technologie Web M1 II-BDCC 25-26\TP-Heritage`
