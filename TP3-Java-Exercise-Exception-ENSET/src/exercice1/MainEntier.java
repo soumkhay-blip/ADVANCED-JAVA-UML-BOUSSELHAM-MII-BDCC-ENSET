@@ -3,59 +3,63 @@ package exercice1;
 import java.util.Scanner;
 
 public class MainEntier {
+    private static final Scanner ENTREE = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        EntierNaturel entier = null;
-        try {
-            System.out.print("Initialisez un entier naturel : ");
-            int init = sc.nextInt();
-            entier = new EntierNaturel(init);
-        } catch (NombreNegatifException e) {
-            System.err.println("Erreur : " + e.getMessage());
-            System.err.println("Valeur erronee : " + e.getValeurErronee());
+        EntierNaturel entier = initialiser();
+        if (entier == null) {
             return;
         }
-
-        int choix;
-        do {
-            System.out.println("\n----- Menu EntierNaturel -----");
-            System.out.println("1. Afficher la valeur");
-            System.out.println("2. Modifier la valeur");
-            System.out.println("3. Decrementer");
-            System.out.println("4. Quitter");
-            System.out.print("Votre choix : ");
-            choix = sc.nextInt();
+        boolean continuer = true;
+        while (continuer) {
+            afficherMenu();
+            int choix = ENTREE.nextInt();
             switch (choix) {
-                case 1:
-                    System.out.println("Valeur actuelle : " + entier.getVal());
-                    break;
-                case 2:
-                    System.out.print("Nouvelle valeur : ");
-                    int nv = sc.nextInt();
-                    try {
-                        entier.setVal(nv);
-                        System.out.println("Valeur modifiee !");
-                    } catch (NombreNegatifException e) {
-                        System.err.println("Erreur : " + e.getMessage());
-                        System.err.println("Valeur erronee : " + e.getValeurErronee());
-                    }
-                    break;
-                case 3:
-                    try {
-                        entier.decrementer();
-                        System.out.println("Valeur decrementee : " + entier.getVal());
-                    } catch (NombreNegatifException e) {
-                        System.err.println("Erreur : " + e.getMessage());
-                        System.err.println("Valeur erronee : " + e.getValeurErronee());
-                    }
-                    break;
-                case 4:
-                    System.out.println("Au revoir !");
-                    break;
-                default:
-                    System.out.println("Choix invalide !");
+                case 1 -> System.out.println("Valeur actuelle : " + entier.valeur());
+                case 2 -> modifier(entier);
+                case 3 -> decrementer(entier);
+                case 4 -> continuer = false;
+                default -> System.out.println("Choix invalide.");
             }
-        } while (choix != 4);
-        sc.close();
+        }
+        System.out.println("Fin du programme.");
+    }
+
+    private static EntierNaturel initialiser() {
+        System.out.print("Initialisez un entier naturel : ");
+        try {
+            return new EntierNaturel(ENTREE.nextInt());
+        } catch (NombreNegatifException erreur) {
+            signaler(erreur);
+            return null;
+        }
+    }
+
+    private static void modifier(EntierNaturel entier) {
+        System.out.print("Nouvelle valeur : ");
+        try {
+            entier.affecter(ENTREE.nextInt());
+            System.out.println("Valeur mise a jour : " + entier.valeur());
+        } catch (NombreNegatifException erreur) {
+            signaler(erreur);
+        }
+    }
+
+    private static void decrementer(EntierNaturel entier) {
+        try {
+            entier.decrementer();
+            System.out.println("Valeur decrementee : " + entier.valeur());
+        } catch (NombreNegatifException erreur) {
+            signaler(erreur);
+        }
+    }
+
+    private static void afficherMenu() {
+        System.out.println("1-Afficher  2-Modifier  3-Decrementer  4-Quitter");
+        System.out.print("Votre choix : ");
+    }
+
+    private static void signaler(NombreNegatifException erreur) {
+        System.err.println(erreur.getMessage() + " (valeur fautive = " + erreur.valeurFautive() + ")");
     }
 }

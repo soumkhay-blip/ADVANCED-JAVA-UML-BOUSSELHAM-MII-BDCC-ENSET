@@ -1,7 +1,7 @@
 package exercice2;
 
 public class CompteCourant extends CompteBancaire {
-    private double decouvert;
+    private final double decouvert;
 
     public CompteCourant(String numero, String titulaire, double solde, double decouvert) {
         super(numero, titulaire, solde);
@@ -9,11 +9,7 @@ public class CompteCourant extends CompteBancaire {
     }
 
     @Override
-    public void retrait(double montant) throws FondsInsuffisantsException {
-        if (montant > solde + decouvert) {
-            throw new FondsInsuffisantsException(
-                    "Fonds insuffisants (decouvert depasse) pour le compte " + numero);
-        }
-        solde -= montant;
+    protected double montantRetirable() {
+        return solde + decouvert;
     }
 }

@@ -1,19 +1,19 @@
 package exercice2;
 
 public class CompteEpargne extends CompteBancaire {
-    private double taux;
+    private final double taux;
 
     public CompteEpargne(String numero, String titulaire, double solde, double taux) {
         super(numero, titulaire, solde);
         this.taux = taux;
     }
 
+    public double interetsAnnuels() {
+        return solde * taux / 100;
+    }
+
     @Override
-    public void retrait(double montant) throws FondsInsuffisantsException {
-        if (montant > solde) {
-            throw new FondsInsuffisantsException(
-                    "Fonds insuffisants pour le compte epargne " + numero);
-        }
-        solde -= montant;
+    protected double montantRetirable() {
+        return solde;
     }
 }

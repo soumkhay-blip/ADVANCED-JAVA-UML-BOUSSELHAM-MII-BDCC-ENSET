@@ -1,30 +1,45 @@
 package exercice2;
 
 public abstract class CompteBancaire {
-    protected String numero;
-    protected String titulaire;
+    private final String numero;
+    private final String titulaire;
     protected double solde;
 
-    public CompteBancaire(String numero, String titulaire, double solde) {
+    protected CompteBancaire(String numero, String titulaire, double solde) {
         this.numero = numero;
         this.titulaire = titulaire;
         this.solde = solde;
     }
 
-    public void depot(double montant) {
+    public String numero() {
+        return numero;
+    }
+
+    public double solde() {
+        return solde;
+    }
+
+    public void deposer(double montant) {
         solde += montant;
     }
 
-    public abstract void retrait(double montant) throws FondsInsuffisantsException;
+    protected abstract double montantRetirable();
 
-    public void transfert(CompteBancaire destination, double montant) throws FondsInsuffisantsException {
-        this.retrait(montant);
-        destination.depot(montant);
+    public final void retirer(double montant) throws FondsInsuffisantsException {
+        if (montant > montantRetirable()) {
+            throw new FondsInsuffisantsException(
+                    "Retrait refuse sur " + numero + " : " + montant + " > disponible " + montantRetirable());
+        }
+        solde -= montant;
+    }
+
+    public void virer(CompteBancaire beneficiaire, double montant) throws FondsInsuffisantsException {
+        retirer(montant);
+        beneficiaire.deposer(montant);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [numero=" + numero + ", titulaire=" + titulaire
-                + ", solde=" + solde + "]";
+        return getClass().getSimpleName() + "{" + numero + ", " + titulaire + ", solde=" + solde + "}";
     }
 }

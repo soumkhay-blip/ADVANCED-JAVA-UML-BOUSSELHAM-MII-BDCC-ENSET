@@ -1,14 +1,14 @@
 package exercice1;
 
 public class NombreNegatifException extends Exception {
-    private int valeurErronee;
+    private final int valeurFautive;
 
-    public NombreNegatifException(int valeur) {
-        super("Valeur negative detectee : " + valeur);
-        this.valeurErronee = valeur;
+    public NombreNegatifException(int valeurFautive) {
+        super(String.format("Valeur negative refusee : %d", valeurFautive));
+        this.valeurFautive = valeurFautive;
     }
 
-    public int getValeurErronee() {
-        return valeurErronee;
+    public int valeurFautive() {
+        return valeurFautive;
     }
 }

@@ -1,29 +1,33 @@
 package exercice1;
 
 public class EntierNaturel {
-    private int val;
+    private int valeur;
 
-    public EntierNaturel(int val) throws NombreNegatifException {
-        if (val < 0) throw new NombreNegatifException(val);
-        this.val = val;
+    public EntierNaturel(int valeur) throws NombreNegatifException {
+        this.valeur = verifier(valeur);
     }
 
-    public int getVal() {
-        return val;
+    public int valeur() {
+        return valeur;
     }
 
-    public void setVal(int val) throws NombreNegatifException {
-        if (val < 0) throw new NombreNegatifException(val);
-        this.val = val;
+    public void affecter(int nouvelle) throws NombreNegatifException {
+        this.valeur = verifier(nouvelle);
     }
 
     public void decrementer() throws NombreNegatifException {
-        if (val - 1 < 0) throw new NombreNegatifException(val - 1);
-        val--;
+        this.valeur = verifier(valeur - 1);
+    }
+
+    private static int verifier(int candidat) throws NombreNegatifException {
+        if (candidat < 0) {
+            throw new NombreNegatifException(candidat);
+        }
+        return candidat;
     }
 
     @Override
     public String toString() {
-        return "EntierNaturel [val=" + val + "]";
+        return "EntierNaturel(" + valeur + ")";
     }
 }
